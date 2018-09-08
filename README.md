@@ -7,5 +7,5 @@
     <img src="./assets/chat-2.jpg">
 </figure>
 
-### ScreenShoot
+### 预览
 ![screenShoot](/assets/screenShoot.jpg)
