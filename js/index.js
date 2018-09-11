@@ -1,6 +1,7 @@
 function countdown() {
   let now = Date.now()
-  let future = new Date('2021-10-1 00:00:00').getTime()
+  let time = '2021-10-01 00:00:00'
+  let future = Date.parse(time.replace(/-/g, '/'))
   let diff = future - now
   d.innerHTML = ~~(diff / 1000 / 60 / 60 / 24)
   h.innerHTML = ~~(diff / 1000 / 60 / 60 % 24)
