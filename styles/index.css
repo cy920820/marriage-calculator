@@ -18,13 +18,13 @@ html, body {
 .content {
   position: absolute;
   width: 100%;
-  top: 30%;
+  top: 35%;
   transform: translate(0, -50%);
   text-align: center;
 }
 
 .content-countdown {
-  margin-top: 100px;
+  margin-top: 80px;
 }
 
 h1 {
@@ -48,5 +48,6 @@ h2 {
 }
 
 .content-title {
-  font-weight: 650;
+  margin-top: 50px;
+  font-size: 25px;
 }
