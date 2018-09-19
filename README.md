@@ -8,4 +8,10 @@
 </figure>
 
 ### 预览
+> 桌面端
+
+![screenShoot](/assets/screenShoot.jpg)
+
+> 移动端
+
 ![screenShoot](/assets/screenShoot.jpg)
