@@ -10,8 +10,8 @@
 ### 预览
 > 桌面端
 
-![screenShoot](/assets/screenShoot.jpg)
+![screenShoot](/assets/pc-screenshot.jpg)
 
 > 移动端
 
-![screenShoot](/assets/screenShoot.jpg)
+![screenShoot](/assets/mobile-screenshot.jpg)
