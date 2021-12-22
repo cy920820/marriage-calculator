@@ -18,7 +18,7 @@ ul li {
   width: 100%;
   height: 100%;
   filter: blur(3px);
-  background: url(../images/bg.jpg) no-repeat;
+  background:url(../images/bg.jpg) no-repeat center fixed;
   background-size: cover;
 }
 
@@ -121,10 +121,6 @@ h2 {
 
   .time {
     padding: 0 2rem;
-  }
-
-  .time span {
-    /* color: #fff; */
   }
 
   .time ul {
