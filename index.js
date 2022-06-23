@@ -146,16 +146,238 @@
   step();
 }.call(this));
 
+(function () {
+  window.onload = function () {
+    //functions definition
+
+    //class definition
+    class segm {
+      constructor(x, y, l) {
+        this.b = Math.random() * 1.9 + 0.1;
+        this.x0 = x;
+        this.y0 = y;
+        this.a = Math.random() * 2 * Math.PI;
+        this.x1 = this.x0 + l * Math.cos(this.a);
+        this.y1 = this.y0 + l * Math.sin(this.a);
+        this.l = l;
+      }
+      update(x, y) {
+        this.x0 = x;
+        this.y0 = y;
+        this.a = Math.atan2(this.y1 - this.y0, this.x1 - this.x0);
+        this.x1 = this.x0 + this.l * Math.cos(this.a);
+        this.y1 = this.y0 + this.l * Math.sin(this.a);
+      }
+    }
+    class rope {
+      constructor(tx, ty, l, b, slq, typ) {
+        if (typ == "l") {
+          this.res = l / 2;
+        } else {
+          this.res = l / slq;
+        }
+        this.type = typ;
+        this.l = l;
+        this.segm = [];
+        this.segm.push(new segm(tx, ty, this.l / this.res));
+        for (let i = 1; i < this.res; i++) {
+          this.segm.push(
+            new segm(
+              this.segm[i - 1].x1,
+              this.segm[i - 1].y1,
+              this.l / this.res
+            )
+          );
+        }
+        this.b = b;
+      }
+      update(t) {
+        this.segm[0].update(t.x, t.y);
+        for (let i = 1; i < this.res; i++) {
+          this.segm[i].update(this.segm[i - 1].x1, this.segm[i - 1].y1);
+        }
+      }
+      show() {
+        if (this.type == "l") {
+          c.beginPath();
+          for (let i = 0; i < this.segm.length; i++) {
+            c.lineTo(this.segm[i].x0, this.segm[i].y0);
+          }
+          c.lineTo(
+            this.segm[this.segm.length - 1].x1,
+            this.segm[this.segm.length - 1].y1
+          );
+          c.strokeStyle = "white";
+          c.lineWidth = this.b;
+          c.stroke();
+
+          c.beginPath();
+          c.arc(this.segm[0].x0, this.segm[0].y0, 1, 0, 2 * Math.PI);
+          c.fillStyle = "white";
+          c.fill();
+
+          c.beginPath();
+          c.arc(
+            this.segm[this.segm.length - 1].x1,
+            this.segm[this.segm.length - 1].y1,
+            2,
+            0,
+            2 * Math.PI
+          );
+          c.fillStyle = "white";
+          c.fill();
+        } else {
+          for (let i = 0; i < this.segm.length; i++) {
+            c.beginPath();
+            c.arc(
+              this.segm[i].x0,
+              this.segm[i].y0,
+              this.segm[i].b,
+              0,
+              2 * Math.PI
+            );
+            c.fillStyle = "white";
+            c.fill();
+          }
+          c.beginPath();
+          c.arc(
+            this.segm[this.segm.length - 1].x1,
+            this.segm[this.segm.length - 1].y1,
+            2,
+            0,
+            2 * Math.PI
+          );
+          c.fillStyle = "white";
+          c.fill();
+        }
+      }
+    }
+
+    //setting up canvas
+    let c = init("mouse-pointer").c,
+      canvas = init("mouse-pointer").canvas,
+      w = (canvas.width = window.innerWidth),
+      h = (canvas.height = window.innerHeight),
+      ropes = [];
+
+    //variables definition
+    let nameOfVariable = "value",
+      mouse = {},
+      last_mouse = {},
+      rl = 50,
+      randl = [],
+      target = { x: w / 2, y: h / 2 },
+      last_target = {},
+      t = 0,
+      q = 10,
+      da = [],
+      type = "l";
+
+    for (let i = 0; i < 100; i++) {
+      if (Math.random() > 0.25) {
+        type = "l";
+      } else {
+        type = "o";
+      }
+      ropes.push(
+        new rope(
+          w / 2,
+          h / 2,
+          (Math.random() * 1 + 0.5) * 500,
+          Math.random() * 0.4 + 0.1,
+          Math.random() * 15 + 5,
+          type
+        )
+      );
+      randl.push(Math.random() * 2 - 1);
+      da.push(0);
+    }
+
+    //place for objects in animation
+    function draw() {
+      if (mouse.x) {
+        target.errx = mouse.x - target.x;
+        target.erry = mouse.y - target.y;
+      } else {
+        target.errx =
+          w / 2 +
+          ((h / 2 - q) * Math.sqrt(2) * Math.cos(t)) /
+            (Math.pow(Math.sin(t), 2) + 1) -
+          target.x;
+        target.erry =
+          h / 2 +
+          ((h / 2 - q) * Math.sqrt(2) * Math.cos(t) * Math.sin(t)) /
+            (Math.pow(Math.sin(t), 2) + 1) -
+          target.y;
+      }
+
+      target.x += target.errx / 10;
+      target.y += target.erry / 10;
+
+      t += 0.01;
+
+      for (let i = 0; i < ropes.length; i++) {
+        if (randl[i] > 0) {
+          da[i] += (1 - randl[i]) / 10;
+        } else {
+          da[i] += (-1 - randl[i]) / 10;
+        }
+        ropes[i].update({
+          x:
+            target.x +
+            randl[i] * rl * Math.cos((i * 2 * Math.PI) / ropes.length + da[i]),
+          y:
+            target.y +
+            randl[i] * rl * Math.sin((i * 2 * Math.PI) / ropes.length + da[i]),
+        });
+        ropes[i].show();
+      }
+      last_target.x = target.x;
+      last_target.y = target.y;
+    }
+
+    //mouse position
+    canvas.addEventListener(
+      "mousemove",
+      function (e) {
+        last_mouse.x = mouse.x;
+        last_mouse.y = mouse.y;
+
+        mouse.x = e.pageX - this.offsetLeft;
+        mouse.y = e.pageY - this.offsetTop;
+      },
+      false
+    );
+
+    canvas.addEventListener("mouseleave", function (e) {
+      mouse.x = false;
+      mouse.y = false;
+    });
+
+    //animation frame
+    function loop() {
+      window.requestAnimFrame(loop);
+      c.clearRect(0, 0, w, h);
+      draw();
+    }
+
+    //window resize
+    window.addEventListener("resize", function () {
+      (w = canvas.width = window.innerWidth),
+        (h = canvas.height = window.innerHeight);
+      loop();
+    });
+
+    //animation runner
+    loop();
+    setInterval(loop, 1000 / 60);
+  };
+})();
+
 var clock;
 var $clock = $(".clock");
 var $message = $(".message");
 var $confetti = $("#confetti");
-var animations = ["bounce", "pulse", "rubberBand", "swing", "tada"];
-var current_animation = 0;
-var timeout = null;
-var interval = 10000;
-var trigger_count = 0;
-var trigger_timeout = null;
 
 $(document).ready(function () {
   var currentDate = new Date();
@@ -163,79 +385,25 @@ $(document).ready(function () {
   var startDate = new Date(getLicenseDate.replace(/-/g, "/"));
   var diff = currentDate.getTime() / 1000 - startDate.getTime() / 1000;
 
-  $(".countdown_mp3").trigger("load");
-  $(".happy_mp3").trigger("load");
-
   clock = $clock.FlipClock(diff, {
     clockFace: "DailyCounter",
     countdown: false,
-    callbacks: {
-      interval: function () {
-        var time = this.factory.getTime().time;
+    // callbacks: {
+    //   interval: function () {
+    //     var time = this.factory.getTime().time;
 
-        if (time === 10) {
-          $(".countdown_mp3").trigger("play");
-        }
+    //     if (time === 10) {
+    //       $(".countdown_mp3").trigger("play");
+    //     }
 
-        if (time <= 10 && time > 0) {
-          pulse();
-        } else if (time <= 0) {
-          celebrate();
-        }
-      },
-    },
-  });
+    //     console.log(time);
 
-  $(".wrapper").click(function () {
-    trigger_count++;
-
-    clearTimeout(trigger_timeout);
-    trigger_timeout = setTimeout(function () {
-      trigger_count = 0;
-    }, 500);
-
-    if (trigger_count === 5) {
-      celebrate();
-    }
+    //     if (time <= 10 && time > 0) {
+    //       pulse();
+    //     } else if (time <= 0) {
+    //       celebrate();
+    //     }
+    //   },
+    // },
   });
 });
-
-function celebrate() {
-  $confetti.fadeIn();
-
-  $clock.removeClass("animated flipInX");
-  $clock.addClass("animated flipOutX");
-
-  clearTimeout(timeout);
-  setTimeout(function () {
-    $message.addClass("animated flipInX").fadeIn();
-    timeout = setTimeout(bounce, interval);
-  }, 350);
-
-  $(".happy_mp3").trigger("play");
-}
-
-function pulse() {
-  $clock.removeClass("animated flipInX flipOutX pulse");
-
-  clearTimeout(timeout);
-  timeout = setTimeout(function () {
-    $clock.addClass("animated pulse");
-  }, 50);
-}
-
-function bounce() {
-  clearTimeout(timeout);
-
-  $message.removeClass("animated bounce flipInX pulse rubberBand swing tada");
-
-  setTimeout(function () {
-    $message.addClass("animated " + animations[current_animation]);
-    current_animation++;
-    if (current_animation == animations.length) {
-      current_animation = 0;
-    }
-  }, 100);
-
-  timeout = setTimeout(bounce, interval);
-}
