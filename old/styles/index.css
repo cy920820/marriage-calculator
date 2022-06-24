@@ -1,13 +1,19 @@
-html, body, div, ul, li {
+html,
+body,
+div,
+ul,
+li {
   margin: 0;
   padding: 0;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   font-size: 62.5%;
-  font-family: Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  font-family: Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei,
+    Arial, sans-serif;
 }
 
 ul li {
@@ -18,7 +24,7 @@ ul li {
   width: 100%;
   height: 100%;
   filter: blur(3px);
-  background:url(../images/bg.jpg) no-repeat center fixed;
+  background: url(../assets/images/bg.jpg) no-repeat center fixed;
   background-size: cover;
 }
 
@@ -44,7 +50,7 @@ h1 {
 
 h2 {
   font-size: 4rem;
-  letter-spacing: .5rem;
+  letter-spacing: 0.5rem;
   font-weight: 40rem;
 }
 
@@ -94,7 +100,7 @@ h2 {
 
   h2 {
     font-size: 4rem;
-    letter-spacing: .5rem;
+    letter-spacing: 0.5rem;
     font-weight: 40rem;
   }
 
@@ -144,7 +150,7 @@ h2 {
   }
 
   .bg {
-    background: url(../images/bg-mobile.png) no-repeat;
+    background: url(../assets/images/bg-mobile.png) no-repeat;
     background-size: cover;
   }
 }
