@@ -5,8 +5,15 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  cursor: none;
 }
+
+@media screen and (min-width: 1200px) {
+  html,
+  body {
+    cursor: none;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -125,12 +132,12 @@ canvas {
 }
 
 .stars {
-  background: #000 url(../images/stars.png) repeat top center;
+  background: #000 url(../assets/images/stars.png) repeat top center;
   z-index: 0;
 }
 
 .twinkling {
-  background: transparent url(../images/twinkling.png) repeat top center;
+  background: transparent url(../assets/images/twinkling.png) repeat top center;
   z-index: 1;
 
   -moz-animation: move-twink-back 200s linear infinite;
@@ -141,7 +148,7 @@ canvas {
 }
 
 .clouds {
-  background: transparent url(../images/clouds3.png) repeat top center;
+  background: transparent url(../assets/images/clouds3.png) repeat top center;
   z-index: 3;
 
   -moz-animation: move-clouds-back 200s linear infinite;
