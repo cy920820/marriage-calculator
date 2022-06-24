@@ -1,3 +1,4 @@
+// Cloud canvas back
 (function () {
   var COLORS,
     Confetti,
@@ -146,10 +147,51 @@
   step();
 }.call(this));
 
+// Clock JS handler
+var clock;
+var $clock = $(".clock");
+var $message = $(".message");
+var $confetti = $("#confetti");
+
+$(document).ready(function () {
+  var currentDate = new Date();
+  var getLicenseDate = "2021-05-06 12:00:00";
+  var startDate = new Date(getLicenseDate.replace(/-/g, "/"));
+  var diff = currentDate.getTime() / 1000 - startDate.getTime() / 1000;
+
+  clock = $clock.FlipClock(diff, {
+    clockFace: "DailyCounter",
+    countdown: false,
+    // callbacks: {
+    //   interval: function () {
+    //     var time = this.factory.getTime().time;
+
+    //     if (time === 10) {
+    //       $(".countdown_mp3").trigger("play");
+    //     }
+
+    //     console.log(time);
+
+    //     if (time <= 10 && time > 0) {
+    //       pulse();
+    //     } else if (time <= 0) {
+    //       celebrate();
+    //     }
+    //   },
+    // },
+  });
+});
+
+// Mouse pointer canvas
 (function () {
   window.onload = function () {
-    //functions definition
-
+    // 如果是移动端则放开鼠标 canvas
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobi/i.test(
+        navigator.userAgent
+      )
+    )
+      return;
     //class definition
     class segm {
       constructor(x, y, l) {
@@ -374,36 +416,100 @@
   };
 })();
 
-var clock;
-var $clock = $(".clock");
-var $message = $(".message");
-var $confetti = $("#confetti");
-
-$(document).ready(function () {
-  var currentDate = new Date();
-  var getLicenseDate = "2021-05-06 12:00:00";
-  var startDate = new Date(getLicenseDate.replace(/-/g, "/"));
-  var diff = currentDate.getTime() / 1000 - startDate.getTime() / 1000;
-
-  clock = $clock.FlipClock(diff, {
-    clockFace: "DailyCounter",
-    countdown: false,
-    // callbacks: {
-    //   interval: function () {
-    //     var time = this.factory.getTime().time;
-
-    //     if (time === 10) {
-    //       $(".countdown_mp3").trigger("play");
-    //     }
-
-    //     console.log(time);
-
-    //     if (time <= 10 && time > 0) {
-    //       pulse();
-    //     } else if (time <= 0) {
-    //       celebrate();
-    //     }
-    //   },
-    // },
+// Cplayer Plugin
+(function () {
+  const player = new cplayer({
+    element: document.getElementById("cplayer"),
+    dark: true,
+    autoplay: true,
+    playlist: [
+      {
+        src: "./assets/media/renshijian.mp3",
+        poster: "./assets/media/renshijian.jpeg",
+        name: "人世间",
+        artist: "雷佳",
+        lyric:
+          "[00:00.000] 作词 : 唐恬\n[00:01.000] 作曲 : 钱雷\n[00:02.000] 编曲 : 钱雷\n[00:03.000] 制作人 : 钱雷\n[00:29.37]草木会发芽孩子会长大\n[00:36.75]岁月的列车不为谁停下\n[00:43.92]命运的站台悲欢离合都是刹那\n[00:51.36]人像雪花一样飞很高又融化\n[00:58.44]世间的苦啊爱要离散雨要下\n[01:05.64]世间的甜啊走多远都记得回家\n[01:13.02]平凡的我们撑起屋檐之下一方烟火\n[01:21.63]不管人世间多少沧桑变化\n[01:27.24]祝你踏过千重浪\n[01:30.48]能留在爱人的身旁\n[01:34.08]在妈妈老去的时光\n[01:37.68]听她把儿时慢慢讲\n[01:41.37]也祝你不忘少年样\n[01:45.03]也无惧那白发苍苍\n[01:48.69]若年华终将被遗忘记得你我\n[01:59.94]火一样爱着\n[02:07.11]人世间值得\n[02:10.98]Wu~~~~~~\n[02:36.66]有多少苦乐就有多少种活法\n[02:43.89]有多少变化太阳都会升起落下\n[02:51.18]平凡的我们一身雨雪风霜不问去哪\n[02:59.76]随四季枯荣依然迎风歌唱\n[03:05.46]祝你踏过千重浪\n[03:08.52]能留在爱人的身旁\n[03:12.27]在妈妈老去的时光\n[03:15.96]听她把儿时慢慢讲\n[03:19.59]也祝你不忘少年样\n[03:23.19]也无惧那白发苍苍\n[03:26.85]我们啊像种子一样\n[03:31.05]一生向阳\n[03:38.01]在这片土壤\n[03:47.10]随万物生长\n[03:49.643] 弦乐编写 : 胡静成\n[03:52.276] 大提琴 : 郎莹\n[03:54.909] 弦乐 : 国际首席爱乐乐团\n[03:57.542] 弦乐录音 : 王小四@金田录音棚\n[04:00.175] 吉他 : 高飞\n[04:02.808] 配唱编写 : 钱雷\n[04:05.441] 人声录音 : 杨惠琳@Studio 21A\n[04:08.074] 人声录音室 : Studio 21A Beijing\n[04:10.707] Vocal edited : 汝文博@SBMS Beijing\n[04:13.340] 混音&母带 : 赵靖BIG.J@SBMS Beijing\n",
+        sublyric: "",
+      },
+    ],
   });
-});
+})();
+
+// Snow canvas
+// (function () {
+//   var c = document.getElementById("snow"),
+//     $ = c.getContext("2d");
+//   var w = (c.width = window.innerWidth),
+//     h = (c.height = window.innerHeight);
+
+//   Snowy();
+//   function Snowy() {
+//     var snow,
+//       arr = [];
+//     var num = 600,
+//       tsc = 1,
+//       sp = 1;
+//     var sc = 1.3,
+//       t = 0,
+//       mv = 20,
+//       min = 1;
+//     for (var i = 0; i < num; ++i) {
+//       snow = new Flake();
+//       snow.y = Math.random() * (h + 50);
+//       snow.x = Math.random() * w;
+//       snow.t = Math.random() * (Math.PI * 2);
+//       snow.sz = (100 / (10 + Math.random() * 100)) * sc;
+//       snow.sp = Math.pow(snow.sz * 0.8, 2) * 0.15 * sp;
+//       snow.sp = snow.sp < min ? min : snow.sp;
+//       arr.push(snow);
+//     }
+//     go();
+//     function go() {
+//       window.requestAnimationFrame(go);
+//       $.clearRect(0, 0, w, h);
+//       $.fillStyle = "hsla(242, 95%, 3%, 1)";
+//       $.fillRect(0, 0, w, h);
+//       $.fill();
+//       for (var i = 0; i < arr.length; ++i) {
+//         f = arr[i];
+//         f.t += 0.05;
+//         f.t = f.t >= Math.PI * 2 ? 0 : f.t;
+//         f.y += f.sp;
+//         f.x += Math.sin(f.t * tsc) * (f.sz * 0.3);
+//         if (f.y > h + 50) f.y = -10 - Math.random() * mv;
+//         if (f.x > w + mv) f.x = -mv;
+//         if (f.x < -mv) f.x = w + mv;
+//         f.draw();
+//       }
+//     }
+//     function Flake() {
+//       this.draw = function () {
+//         this.g = $.createRadialGradient(
+//           this.x,
+//           this.y,
+//           0,
+//           this.x,
+//           this.y,
+//           this.sz
+//         );
+//         this.g.addColorStop(0, "hsla(255,255%,255%,1)");
+//         this.g.addColorStop(1, "hsla(255,255%,255%,0)");
+//         $.moveTo(this.x, this.y);
+//         $.fillStyle = this.g;
+//         $.beginPath();
+//         $.arc(this.x, this.y, this.sz, 0, Math.PI * 2, true);
+//         $.fill();
+//       };
+//     }
+//   }
+//   /*________________________________________*/
+//   window.addEventListener(
+//     "resize",
+//     function () {
+//       c.width = w = window.innerWidth;
+//       c.height = h = window.innerHeight;
+//     },
+//     false
+//   );
+// })();
