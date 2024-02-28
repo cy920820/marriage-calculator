@@ -1,5 +1,13 @@
 /* Get the bourbon mixin from http://bourbon.io */
 /* Reset */
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
 .flip-clock-wrapper * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -42,13 +50,6 @@
 }
 
 /* Main */
-.flip-clock-wrapper {
-  font: normal 11px 'Helvetica Neue', Helvetica, sans-serif;
-  color: #555;
-  z-index: 10;
-  -webkit-user-select: none;
-}
-
 .flip-clock-meridium {
   background: none !important;
   box-shadow: 0 0 0 !important;
@@ -60,16 +61,12 @@
 }
 
 .flip-clock-wrapper {
+  font: normal 11px 'Helvetica Neue', Helvetica, sans-serif;
+  color: #555;
+  z-index: 10;
+  user-select: none;
   text-align: center;
-  width: 690px;
-  margin: 0 auto;
   height: 100px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
 }
 
 .flip-clock-wrapper:before,
